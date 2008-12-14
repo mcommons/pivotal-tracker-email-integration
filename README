@@ -34,7 +34,7 @@ You need to pass your tracker project number and an API key to the client librar
 2008-12-14:
  - Added support for long emails by splitting the body into a description and comments (Tracker has a 5K character limit on each)
 
-2008-12-14:
+2008-12-07:
  - Initial release
 
 === Contributers
