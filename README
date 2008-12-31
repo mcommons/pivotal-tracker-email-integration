@@ -24,12 +24,17 @@ To create a story, just send an email to that address.  The subject will become 
 
 "Plus addressing" is supported to define the story type.  So sending an email to tracker+bug@your-domain.com will create a Bug, while tracker+feature@your-domain.com will create a Feature (default).
 
+You can assign a story to someone by CCing them on the email.  Note that the name in your email address book must match their Tracker username (e.g. '"John Doe" <john@example.com>' will assign to user John Doe)
+
 The script relies on a Ruby library to interact with Tracker's API.  It's packaged in here for convenience.  
 
 You need to pass your tracker project number and an API key to the client library.  You must define them at the top of the tracker.rb procmail script.
 
 
 === CHANGELOG:
+
+2008-12-31:
+ - You can now assign a story to someone by CCing them on the email.  
 
 2008-12-14:
  - Added support for long emails by splitting the body into a description and comments (Tracker has a 5K character limit on each)

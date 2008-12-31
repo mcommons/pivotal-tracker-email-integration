@@ -3,8 +3,8 @@ require 'ruby-pivotal-tracker/pivotal_tracker'
 require 'net/smtp' #for outgoing response
 
 # YOU MUST CHANGE THESE VALUES TO MATCH YOUR PROJECT!
-TRACKER_PROJECT_ID = 123
-TRACKER_API_TOKEN = 'd2bd27869aace1e5b543af5e2dceb90d'
+TRACKER_PROJECT_ID = 603
+TRACKER_API_TOKEN = 'c2bd27869aace1e5b543af5e2dceb90d'
 
 def read_email_from_sdtin
   email = ''
@@ -20,6 +20,11 @@ end
 
 def parse_to(email)
   email.scan(/To: (.*)/).flatten.first
+end
+
+def parse_cc_name(email)
+  cc = email.scan(/Cc: \"(.*)\"/).flatten.first
+  cc.gsub(/[\"\\]/,'') if cc
 end
 
 def parse_body(email)
@@ -65,6 +70,7 @@ to        = parse_to(email)
 body      = parse_body(email)
 from      = parse_from(email)
 from_name = parse_name(email)
+cc_name   = parse_cc_name(email)
 
 # Tracker has a max_len for description and comments
 # Split up the email body into chunks; use the first one as the description
@@ -80,6 +86,7 @@ story   = {
   :name         => subject,
   :requested_by => from_name
 }
+story[:owned_by] = cc_name if cc_name
 created_story = tracker.create_story(story)
 
 #now update the story N times with each comment

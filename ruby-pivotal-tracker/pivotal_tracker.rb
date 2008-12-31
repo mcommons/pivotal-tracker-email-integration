@@ -170,7 +170,7 @@ private
       :estimate      => doc.at('estimate').innerHTML,
       :current_state => doc.at('current_state').innerHTML,
       :description   => doc.at('description').innerHTML,
-      :url           => doc.at('url').innerHTML
+      :url           => doc.at('url').innerHTML,
       :requested_by  => doc.at('requested_by').innerHTML.to_i,
       :created_at    => doc.at('created_at').innerHTML.to_i
     }      
