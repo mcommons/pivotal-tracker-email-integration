@@ -23,7 +23,7 @@ def parse_to(email)
 end
 
 def parse_cc_name(email)
-  cc = email.scan(/Cc: \"(.*)\"/).flatten.first
+  cc = email.scan(/Cc: \"(.*)\"/).flatten.first || email.scan(/Cc: (.*) \</).flatten.first
   cc.gsub(/[\"\\]/,'') if cc
 end
 
@@ -31,8 +31,11 @@ def parse_body(email)
   email.scan(/[\r|\n]{2}(.*)/m).join 
 end
 
+# This will regex the name from the following formats so far:
+# From: "Benjamin Stein" <ben@mcommons.com>
+# From: Benjamin Stein <ben@mcommons.com>
 def parse_name(email)
-  email.scan(/From: \"(.*)\"/).flatten.first
+  email.scan(/From: \"(.*)\"/).flatten.first || email.scan(/From: (.*) \</).flatten.first
 end
 def parse_from(email)
   email.scan(/From: (.*)/).flatten.first
