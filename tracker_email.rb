@@ -4,24 +4,26 @@ require 'pivotal_tracker'
 require 'net/smtp' #for outgoing response
 
 # YOU MUST CHANGE THESE VALUES TO MATCH YOUR PROJECT!
-TRACKER_PROJECT_ID = 603
-TRACKER_API_TOKEN = 'c2bd27869aace1e5b543af5e2dceb90d'
+TRACKER_PROJECT_ID = 000000
+TRACKER_API_TOKEN = 'du2i3hd2iuiuye8i'
 
+# keeps only the first mime part
 def read_email_from_sdtin
   email = ''
   chunk_start = '--no-chunk--'
   $stdin.each_line do |line|
     break if line == chunk_start
-    unless line.match(/^--\S*$/).blank?
-      chunk_start = line_one
+    unless line.match(/^--\S*$/).nil?
+      chunk_start = line
     end
     email << line
   end
   email
 end
 
+# eliminate the fwd and re in the subject
 def parse_subject(email)
-  email.scan(/Subject: (.*)/).flatten.first
+  email.scan(/Subject: (?:Fwd:\s*)?(?:Re:\s*)?(.*)/).flatten.first
 end
 
 def parse_to(email)
