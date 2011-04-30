@@ -9,7 +9,12 @@ TRACKER_API_TOKEN = 'c2bd27869aace1e5b543af5e2dceb90d'
 
 def read_email_from_sdtin
   email = ''
+  chunk_start = '--no-chunk--'
   $stdin.each_line do |line|
+    break if line == chunk_start
+    unless line.match(/^--\S*$/).blank?
+      chunk_start = line_one
+    end
     email << line
   end
   email
@@ -96,7 +101,7 @@ created_story = project.stories.create(story)
 
 #now update the story N times with each comment
 comments.each do |comment|
-  tracker.add_comment(created_story[:id], comment)
+  created_story.notes.create(:text => comment)
 end
 
-send_confirmation_email(to, from, "Successfully Created Story #{created_story[:id]}!", created_story.inspect) 
+send_confirmation_email(to, from, "Successfully Created Story #{created_story.id}!", created_story.inspect) 
