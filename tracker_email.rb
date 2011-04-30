@@ -1,5 +1,5 @@
 #!/usr/local/bin/ruby
-require 'ruby-pivotal-tracker/pivotal_tracker'
+require 'pivotal_tracker'
 require 'net/smtp' #for outgoing response
 
 # YOU MUST CHANGE THESE VALUES TO MATCH YOUR PROJECT!
@@ -81,8 +81,9 @@ cc_name   = parse_cc_name(email)
 chunks = body.split(/(.{5000})/m).reject{|token| token.nil? || token.length==0}
 description = chunks[0]
 comments    = chunks[1..-1] || []
+PivotalTracker::Client.token = TRACKER_API_TOKEN 
+project = PivotalTracker::Project.find(TRACKER_PROJECT_ID) 
 
-tracker = Tracker.new(TRACKER_PROJECT_ID, TRACKER_API_TOKEN)
 story   = {
   :story_type   => get_story_type_from_email_address(to),
   :description  => description,
@@ -90,7 +91,7 @@ story   = {
   :requested_by => from_name
 }
 story[:owned_by] = cc_name if cc_name
-created_story = tracker.create_story(story)
+created_story = project.stories.create(story)
 
 #now update the story N times with each comment
 comments.each do |comment|
