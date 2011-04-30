@@ -26,10 +26,9 @@ To create a story, just send an email to that address.  The subject will become 
 
 You can assign a story to someone by CCing them on the email.  Note that the name in your email address book must match their Tracker username (e.g. '"John Doe" <john@example.com>' will assign to user John Doe)
 
-The script relies on a Ruby library to interact with Tracker's API.  It's packaged in here for convenience.  
+The script relies on a Ruby library to interact with Tracker's API. You can can install the gem from here: https://github.com/jsmestad/pivotal-tracker
 
-You need to pass your tracker project number and an API key to the client library.  You must define them at the top of the tracker.rb procmail script.
-
+You need to pass your tracker project number and an API key to the client library.  You must define them at the top of the tracker_email.rb procmail script.
 
 === CHANGELOG:
 
