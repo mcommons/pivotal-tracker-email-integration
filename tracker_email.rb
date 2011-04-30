@@ -1,4 +1,5 @@
 #!/usr/local/bin/ruby
+require 'rubygems'
 require 'pivotal_tracker'
 require 'net/smtp' #for outgoing response
 
