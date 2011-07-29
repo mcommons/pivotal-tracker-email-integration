@@ -1,21 +1,29 @@
 #!/usr/local/bin/ruby
-require 'ruby-pivotal-tracker/pivotal_tracker'
+require 'rubygems'
+require 'pivotal_tracker'
 require 'net/smtp' #for outgoing response
 
 # YOU MUST CHANGE THESE VALUES TO MATCH YOUR PROJECT!
-TRACKER_PROJECT_ID = 603
-TRACKER_API_TOKEN = 'c2bd27869aace1e5b543af5e2dceb90d'
+TRACKER_PROJECT_ID = 000000
+TRACKER_API_TOKEN = 'du2i3hd2iuiuye8i'
 
+# keeps only the first mime part
 def read_email_from_sdtin
   email = ''
+  chunk_start = '--no-chunk--'
   $stdin.each_line do |line|
+    break if line == chunk_start
+    unless line.match(/^--\S*$/).nil?
+      chunk_start = line
+    end
     email << line
   end
   email
 end
 
+# eliminate the fwd and re in the subject
 def parse_subject(email)
-  email.scan(/Subject: (.*)/).flatten.first
+  email.scan(/Subject: (?:Fwd:\s*)?(?:Re:\s*)?(.*)/).flatten.first
 end
 
 def parse_to(email)
@@ -81,8 +89,9 @@ cc_name   = parse_cc_name(email)
 chunks = body.split(/(.{5000})/m).reject{|token| token.nil? || token.length==0}
 description = chunks[0]
 comments    = chunks[1..-1] || []
+PivotalTracker::Client.token = TRACKER_API_TOKEN 
+project = PivotalTracker::Project.find(TRACKER_PROJECT_ID) 
 
-tracker = Tracker.new(TRACKER_PROJECT_ID, TRACKER_API_TOKEN)
 story   = {
   :story_type   => get_story_type_from_email_address(to),
   :description  => description,
@@ -90,11 +99,11 @@ story   = {
   :requested_by => from_name
 }
 story[:owned_by] = cc_name if cc_name
-created_story = tracker.create_story(story)
+created_story = project.stories.create(story)
 
 #now update the story N times with each comment
 comments.each do |comment|
-  tracker.add_comment(created_story[:id], comment)
+  created_story.notes.create(:text => comment)
 end
 
-send_confirmation_email(to, from, "Successfully Created Story #{created_story[:id]}!", created_story.inspect) 
+send_confirmation_email(to, from, "Successfully Created Story #{created_story.id}!", created_story.inspect) 
