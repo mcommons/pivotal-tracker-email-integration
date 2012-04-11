@@ -15,10 +15,10 @@ In the tracker's home directory, create a .procmailrc file that simply pipes all
 
 Mine looks like this:
 
-:0
-*
-#* ^To:*
-|ruby /home/tracker/tracker_email.rb
+    :0
+    *
+    #* ^To:*
+    |ruby /home/tracker/tracker_email.rb
 
 To create a story, just send an email to that address.  The subject will become the story title and the body will be the description.
 
