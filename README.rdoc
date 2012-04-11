@@ -1,7 +1,7 @@
 = pivotal-tracker-email-integration
- 
+
 * http://github.com/mcommons/pivotal-tracker-email-integration
- 
+
 
 == DESCRIPTION:
 
@@ -33,7 +33,7 @@ You need to pass your tracker project number and an API key to the client librar
 === CHANGELOG:
 
 2008-12-31:
- - You can now assign a story to someone by CCing them on the email.  
+ - You can now assign a story to someone by CCing them on the email.
 
 2008-12-14:
  - Added support for long emails by splitting the body into a description and comments (Tracker has a 5K character limit on each)
