@@ -1,7 +1,7 @@
 = pivotal-tracker-email-integration
- 
+
 * http://github.com/mcommons/pivotal-tracker-email-integration
- 
+
 
 == DESCRIPTION:
 
@@ -15,10 +15,10 @@ In the tracker's home directory, create a .procmailrc file that simply pipes all
 
 Mine looks like this:
 
-:0
-*
-#* ^To:*
-|ruby /home/tracker/tracker_email.rb
+    :0
+    *
+    #* ^To:*
+    |ruby /home/tracker/tracker_email.rb
 
 To create a story, just send an email to that address.  The subject will become the story title and the body will be the description.
 
@@ -33,7 +33,7 @@ You need to pass your tracker project number and an API key to the client librar
 === CHANGELOG:
 
 2008-12-31:
- - You can now assign a story to someone by CCing them on the email.  
+ - You can now assign a story to someone by CCing them on the email.
 
 2008-12-14:
  - Added support for long emails by splitting the body into a description and comments (Tracker has a 5K character limit on each)
